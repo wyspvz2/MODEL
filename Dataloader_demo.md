@@ -145,12 +145,12 @@ for batch_idx, (batch_x, batch_y) in enumerate(loader):
 
 - **单条样本**:
 
-`dataset[i] = (x_i, y_i)`,  
-`x_i ∈ R²`, `y_i ∈ {0,1}`
+$ dataset[i] = (x_i, y_i)$,  
+$x_i ∈ R²`, `y_i ∈ {0,1}$
 
 - **批次数据**:
 
-`X_batch ∈ R^(batch_size × 2)`, `Y_batch ∈ R^(batch_size)`
+$X_batch ∈ R^(batch_size × 2)`, `Y_batch ∈ R^(batch_size)$
 
 - **说明**：
 
