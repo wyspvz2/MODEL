@@ -111,7 +111,6 @@ for batch_idx, (batch_x, batch_y) in enumerate(loader):
 # 6️⃣ 数学解释
 
 
-
 假设 shuffle 后数据顺序为：
 
 `[x2, x0, x4, x1, x3]`
@@ -147,38 +146,15 @@ for batch_idx, (batch_x, batch_y) in enumerate(loader):
 - **单条样本**:
 
 `dataset[i] = (x_i, y_i)`,  
-`x_i ∈ ℝ²`, `y_i ∈ {0,1}`
+`x_i ∈ R²`, `y_i ∈ {0,1}`
 
 - **批次数据**:
 
-`X_batch ∈ ℝ^(batch_size × 2)`, `Y_batch ∈ ℝ^(batch_size)`
+`X_batch ∈ R^(batch_size × 2)`, `Y_batch ∈ R^(batch_size)`
 
 - **说明**：
 
 每个批次将单条样本组合成矩阵形式，方便直接送入模型进行前向传播和反向传播。
 
-
----
-
-## 数学解释
-
-- **单条样本**:
-
-\[
-\text{dataset}[i] = (x_i, y_i), \quad
-x_i \in \mathbb{R}^2, \quad
-y_i \in \{0,1\}
-\]
-
-- **批次数据**:
-
-\[
-X_{\text{batch}} \in \mathbb{R}^{\text{batch\_size} \times 2}, \quad
-Y_{\text{batch}} \in \mathbb{R}^{\text{batch\_size}}
-\]
-
-- **说明**：
-
-每个批次将单条样本组合起来，形成矩阵形式，方便直接送入模型进行前向传播和反向传播。
 
 
