@@ -13,7 +13,7 @@ Dataset 负责定义 **每条数据怎么取**，DataLoader 负责 **批量加�
 
 ---
 
-# PyTorch 自定义 Dataset 示例（全部注释版）
+# PyTorch 自定义 Dataset 示例
 
 ```python
 import torch
