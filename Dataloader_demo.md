@@ -105,8 +105,9 @@ for batch_idx, (batch_x, batch_y) in enumerate(loader):
     print("batch_x:", batch_x)
     print("batch_y:", batch_y)
     print("-" * 30)
-
+ ```
 ---
+
 # 6️⃣ 数值解释
 # 假设 shuffle 后顺序为 [x2, x0, x4, x1, x3]，则批次如下：
 # 批次 0：
