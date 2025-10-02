@@ -23,7 +23,7 @@
      ```
 
 2. **打乱数据顺序（Shuffle）**  
-   - 避免模型训练顺序偏差，让梯度更新更稳定。  
+   - 避免模型因为数据集的训练顺序影响训练结果。  
    - 设置 `shuffle=True`，每个 epoch 都会随机打乱数据顺序。
 
 3. **并行读取数据（num_workers）**  
@@ -75,8 +75,33 @@
 
 ---
 
-✅ 总结：
+## 5️⃣ 代码示例
 
-- DataLoader 是训练神经网络数据管道的核心  
-- 它解决了**批量化、打乱顺序、加速读取**的问题  
-- 与 Dataset 配合使用，可以轻松管理各种数据类型，包括多模态数据
+import torch
+from torch.utils.data import DataLoader
+
+# 直接导入你写好的 Dataset
+from my_dataset import MyDataset
+
+# 示例数据
+X_data = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
+Y_data = [0, 1, 0, 1, 0]
+
+# 创建 Dataset 实例
+dataset = MyDataset(X_data, Y_data)
+
+# 用 Dataset 创建 DataLoader
+loader = DataLoader(
+    dataset,
+    batch_size=2,  # 每批 2 条数据
+    shuffle=True,  # 打乱顺序
+    num_workers=0  # 单进程加载
+)
+
+# 迭代 DataLoader
+for batch_idx, (batch_x, batch_y) in enumerate(loader):
+    print(f"批次 {batch_idx}:")
+    print("batch_x:", batch_x)
+    print("batch_y:", batch_y)
+    print("-" * 30)
+
