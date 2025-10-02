@@ -6,6 +6,9 @@
 
 ## 1. Linear 层 (全连接层)
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b82a10c4-b278-4c9e-ad83-5556b675c1d9" />
+
+
 **数学公式**：
 
 输入向量 $x \in \mathbb{R}^{d_{in}}$，输出向量 $y \in \mathbb{R}^{d_{out}}$：
@@ -41,6 +44,9 @@ print("Linear 输出形状:", y.shape)
 
 ```
 ## 2. Conv2d 层 (二维卷积层)
+
+<img width="543" height="544" alt="image" src="https://github.com/user-attachments/assets/d41bbdbc-216a-4374-bbf2-dfe1437e01df" />
+
 
 **数学公式**：
 
