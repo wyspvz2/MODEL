@@ -1,33 +1,84 @@
-# 导入PyTorch库
+# ==============================
+# PyTorch 手写体识别脚本
+# ==============================
+
 import torch
 import torch.nn as nn
+import torch.optim as optim
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
 
-# 定义输入层大小、隐藏层大小、输出层大小和批量大小
-n_in, n_h, n_out, batch_size = 10, 5, 1, 10
+# ==============================
+# 1. 数据预处理与加载
+# ==============================
+# MNIST 图片为 28x28 灰度图
+# 需要将图片转换为张量并归一化到 [-1, 1]
+# DataLoader 按批次加载数据，并支持 shuffle 功能
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
 
-# 创建虚拟输入数据和目标数据
-x = torch.randn(batch_size, n_in)  # 随机生成输入数据
-y = torch.tensor([[1.0], [0.0], [0.0], 
-                 [1.0], [1.0], [1.0], [0.0], [0.0], [1.0], [1.0]])  # 目标输出数据
+train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
 
-# 创建顺序模型，包含线性层、ReLU激活函数和Sigmoid激活函数
-model = nn.Sequential(
-   nn.Linear(n_in, n_h),  # 输入层到隐藏层的线性变换
-   nn.ReLU(),            # 隐藏层的ReLU激活函数
-   nn.Linear(n_h, n_out),  # 隐藏层到输出层的线性变换
-   nn.Sigmoid()           # 输出层的Sigmoid激活函数
-)
+train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 
-# 定义均方误差损失函数和随机梯度下降优化器
-criterion = torch.nn.MSELoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)  # 学习率为0.01
+# ==============================
+# 2. 定义前馈神经网络
+# ==============================
+class SimpleNN(nn.Module):
+    def __init__(self):
+        super(SimpleNN, self).__init__()
+        self.fc1 = nn.Linear(28*28, 128)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(128, 10)
+        self.softmax = nn.Softmax(dim=1)
 
-# 执行梯度下降算法进行模型训练
-for epoch in range(50):  # 迭代50次
-   y_pred = model(x)  # 前向传播，计算预测值
-   loss = criterion(y_pred, y)  # 计算损失
-   print('epoch: ', epoch, 'loss: ', loss.item())  # 打印损失值
+    def forward(self, x):
+        x = x.view(-1, 28*28)  # 展平
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        x = self.softmax(x)
+        return x
 
-   optimizer.zero_grad()  # 清零梯度
-   loss.backward()  # 反向传播，计算梯度
-   optimizer.step()  # 更新模型参数
+model = SimpleNN()
+
+# ==============================
+# 3. 定义损失函数和优化器
+# ==============================
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+# ==============================
+# 4. 训练模型
+# ==============================
+num_epochs = 5
+for epoch in range(num_epochs):
+    running_loss = 0.0
+    for images, labels in train_loader:
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        running_loss += loss.item()
+    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {running_loss/len(train_loader):.4f}")
+
+# ==============================
+# 5. 测试模型
+# ==============================
+correct = 0
+total = 0
+with torch.no_grad():
+    for images, labels in test_loader:
+        outputs = model(images)
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+
+print(f'Test Accuracy: {100 * correct / total:.2f}%')
