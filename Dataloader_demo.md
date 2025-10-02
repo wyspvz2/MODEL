@@ -111,11 +111,10 @@ for batch_idx, (batch_x, batch_y) in enumerate(loader):
 # 6️⃣ 数学解释
 
 
+
 假设 shuffle 后数据顺序为：
 
-\[
-[x_2, x_0, x_4, x_1, x_3]
-\]
+`[x2, x0, x4, x1, x3]`
 
 ---
 
@@ -123,44 +122,41 @@ for batch_idx, (batch_x, batch_y) in enumerate(loader):
 
 **批次 0：**
 
-\[
-X_{\text{batch}} =
-\begin{bmatrix}
-5 & 6 \\
-1 & 2
-\end{bmatrix}, \quad
-Y_{\text{batch}} =
-\begin{bmatrix}
-0 \\ 0
-\end{bmatrix}
-\]
+| batch_x | batch_y |
+|---------|---------|
+| [5, 6]  | 0       |
+| [1, 2]  | 0       |
 
 **批次 1：**
 
-\[
-X_{\text{batch}} =
-\begin{bmatrix}
-9 & 10 \\
-3 & 4
-\end{bmatrix}, \quad
-Y_{\text{batch}} =
-\begin{bmatrix}
-0 \\ 1
-\end{bmatrix}
-\]
+| batch_x  | batch_y |
+|----------|---------|
+| [9, 10]  | 0       |
+| [3, 4]   | 1       |
 
 **批次 2：**
 
-\[
-X_{\text{batch}} =
-\begin{bmatrix}
-7 & 8
-\end{bmatrix}, \quad
-Y_{\text{batch}} =
-\begin{bmatrix}
-1
-\end{bmatrix}
-\]
+| batch_x | batch_y |
+|---------|---------|
+| [7, 8]  | 1       |
+
+---
+
+## 数学解释
+
+- **单条样本**:
+
+`dataset[i] = (x_i, y_i)`,  
+`x_i ∈ ℝ²`, `y_i ∈ {0,1}`
+
+- **批次数据**:
+
+`X_batch ∈ ℝ^(batch_size × 2)`, `Y_batch ∈ ℝ^(batch_size)`
+
+- **说明**：
+
+每个批次将单条样本组合成矩阵形式，方便直接送入模型进行前向传播和反向传播。
+
 
 ---
 
