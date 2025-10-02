@@ -66,11 +66,15 @@ model.forward(input_tensor)
 - 无需手动调用 forward 方法。
 ## 3. 数据流说明
 
-1. 输入图像张量 $x$ 展平成 $(\text{batch\_size}, 784)$。
-2. 经过第一个全连接层 `fc1`，输出 $(\text{batch\_size}, 128)$。
+
+1. 输入图像张量 $x$ 展平成 $(\text{batch size}, 784)$。
+2. 经过第一个全连接层 `fc1`，输出 $(\text{batch size}, 128)$。
 3. 通过 ReLU 激活函数，增加非线性。
-4. 经过第二个全连接层 `fc2`，输出 $(\text{batch\_size}, 10)$。
+4. 经过第二个全连接层 `fc2`，输出 $(\text{batch size}, 10)$。
 5. 通过 Softmax 将输出转为概率分布，适合分类任务。
+
+这种结构是典型的全连接神经网络（MLP）分类模型。
+
 
 这种结构是典型的全连接神经网络（MLP）分类模型。
 ## 4. 补充说明
