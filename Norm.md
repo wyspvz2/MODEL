@@ -19,7 +19,8 @@ $$
 
 - $\mu_c = \frac{1}{NHW} \sum_{n,h,w} x_{n,c,h,w}$  
 - $\sigma_c^2 = \frac{1}{NHW} \sum_{n,h,w} (x_{n,c,h,w} - \mu_c)^2$  
-- $\gamma_c, \beta_c$ 是可学习参数，$ \epsilon $ 是防止除零的小常数
+- $\gamma_c, \beta_c$ 是可学习参数，<img width="33" height="32" alt="image" src="https://github.com/user-attachments/assets/fe35df7d-8149-4366-bfa8-becb8b0b460b" />
+ 是防止除零的小常数
 
 解释：
 
