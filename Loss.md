@@ -40,7 +40,8 @@ $$
 **解释**：
 
 - 用于分类任务  
-- $y_{i,c}$ 是真实类别的 one-hot 编码，$\log \hat{y}_{\!i,c}$ 是预测概率
+- $y_{i,c}$ 是真实类别的 one-hot 编码，<img width="33" height="33" alt="image" src="https://github.com/user-attachments/assets/05cb538b-2b11-4dde-8e29-efa19f27f0fc" />
+ 是预测概率
 - PyTorch 的 `CrossEntropyLoss` 内部包含 `Softmax`，不需要手动计算概率
 
 **示例代码**：
