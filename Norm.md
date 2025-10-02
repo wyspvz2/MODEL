@@ -4,7 +4,7 @@
 
 ---
 
-**BatchNorm（批归一化）**
+# BatchNorm（批归一化）
 
 数学公式：
 
@@ -39,7 +39,7 @@ y = bn(x)
 print("BatchNorm 输出形状:", y.shape)
 ```
 
-# LayerNorm（层归一化）详解
+# LayerNorm（层归一化）
 
 **数学公式**：
 
