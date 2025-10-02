@@ -8,10 +8,10 @@
 
 **数学公式**：
 
-输入向量 $x \in \mathbb{R}^{\text{in\_features}}$，输出向量 $y \in \mathbb{R}^{\text{out\_features}}$：
+输入向量 $x \in \mathbb{R}^{d_{in}}$，输出向量 $y \in \mathbb{R}^{d_{out}}$：
 
 $$
-y = x W^\top + b, \quad W \in \mathbb{R}^{\text{out\_features} \times \text{in\_features}}, \quad b \in \mathbb{R}^{\text{out\_features}}
+y = x W^\top + b, \quad W \in \mathbb{R}^{d_{out} \times d_{in}}, \quad b \in \mathbb{R}^{d_{out}}
 $$
 
 **解释**：
@@ -26,9 +26,9 @@ import torch
 import torch.nn as nn
 
 class LinearExample(nn.Module):
-    def __init__(self, in_features, out_features):
+    def __init__(self, d_in, d_out):
         super().__init__()
-        self.linear = nn.Linear(in_features, out_features)
+        self.linear = nn.Linear(d_in, d_out)
 
     def forward(self, x):
         return self.linear(x)
