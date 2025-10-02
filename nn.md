@@ -27,7 +27,7 @@ class SimpleNN(nn.Module):
         x = self.fc2(x)         # 第二个全连接层
         x = self.softmax(x)     # Softmax 转为概率分布
         return x
-
+```
 # 创建模型实例
 model = SimpleNN()
 
