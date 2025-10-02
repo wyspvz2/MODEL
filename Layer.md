@@ -39,7 +39,7 @@ model_linear = LinearExample(10, 5)
 y = model_linear(x)
 print("Linear 输出形状:", y.shape)
 
-
+```
 ## 2. Conv2d 层 (二维卷积层)
 
 **数学公式**：
