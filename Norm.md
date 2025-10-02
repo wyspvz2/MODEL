@@ -72,3 +72,34 @@ ln = nn.LayerNorm(normalized_shape=5)
 y = ln(x)
 print("LayerNorm 输出:\n", y)
 ```
+# PyTorch Dropout（随机失活）
+
+**数学公式**：
+
+对于输入 $x$：
+
+$$
+y_i =
+\begin{cases}
+0, & \text{以概率 } p \\
+\frac{x_i}{1-p}, & \text{以概率 } 1-p
+\end{cases}
+$$
+
+其中 $p$ 是丢弃概率。
+
+**解释**：
+
+- 在训练时随机丢弃部分神经元输出，降低过拟合  
+- 测试时不丢弃，通常会自动缩放输出  
+
+**示例代码**：
+
+```python
+import torch
+import torch.nn as nn
+
+x = torch.randn(3, 4)
+dropout = nn.Dropout(p=0.2)
+y = dropout(x)
+print("Dropout 输出:\n", y)
