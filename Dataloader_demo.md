@@ -106,3 +106,27 @@ for batch_idx, (batch_x, batch_y) in enumerate(loader):
     print("batch_y:", batch_y)
     print("-" * 30)
 
+---
+# 6️⃣ 数值解释
+# 假设 shuffle 后顺序为 [x2, x0, x4, x1, x3]，则批次如下：
+# 批次 0：
+# batch_x = [[5, 6],
+#            [1, 2]]
+# batch_y = [0, 0]
+# 批次 1：
+# batch_x = [[9, 10],
+#            [3, 4]]
+# batch_y = [0, 1]
+# 批次 2：
+# batch_x = [[7, 8]]
+# batch_y = [1]
+#
+# 数学解释：
+# - dataset[i] 返回单条样本: (x_i, y_i)
+# - x_i ∈ ℝ², y_i ∈ {0,1}
+# - DataLoader 将单条样本组合为批次:
+#   X_batch ∈ ℝ^(batch_size × 特征维度)
+#   Y_batch ∈ ℝ^(batch_size)
+#
+# 这样每个批次可以直接送入模型进行前向传播和反向传播
+
