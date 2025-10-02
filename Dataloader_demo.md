@@ -109,67 +109,80 @@ for batch_idx, (batch_x, batch_y) in enumerate(loader):
 ---
 
 # 6️⃣ 数学解释
-# 假设 shuffle 后顺序为: [x_2, x_0, x_4, x_1, x_3]
 
-# 批次 0：
-# batch_x = [[5, 6],
-#            [1, 2]]
-# batch_y = [0, 0]
 
-# 批次 1：
-# batch_x = [[9, 10],
-#            [3, 4]]
-# batch_y = [0, 1]
+假设 shuffle 后数据顺序为：
 
-# 批次 2：
-# batch_x = [[7, 8]]
-# batch_y = [1]
+\[
+[x_2, x_0, x_4, x_1, x_3]
+\]
 
-# 数学解释 (LaTeX 格式)：
-# - 单条样本:
-#   \[
-#   \text{dataset}[i] = (x_i, y_i), \quad x_i \in \mathbb{R}^2, \ y_i \in \{0,1\}
-#   \]
-# - 批次数据:
-#   \[
-#   X_{\text{batch}} \in \mathbb{R}^{\text{batch\_size} \times 2}, \quad
-#   Y_{\text{batch}} \in \mathbb{R}^{\text{batch\_size}}
-#   \]
-# - 例如批次 0：
-#   \[
-#   X_{\text{batch}} = 
-#   \begin{bmatrix}
-#   5 & 6 \\
-#   1 & 2
-#   \end{bmatrix}, \quad
-#   Y_{\text{batch}} =
-#   \begin{bmatrix}
-#   0 \\ 0
-#   \end{bmatrix}
-#   \]
-# - 批次 1：
-#   \[
-#   X_{\text{batch}} = 
-#   \begin{bmatrix}
-#   9 & 10 \\
-#   3 & 4
-#   \end{bmatrix}, \quad
-#   Y_{\text{batch}} =
-#   \begin{bmatrix}
-#   0 \\ 1
-#   \end{bmatrix}
-#   \]
-# - 批次 2：
-#   \[
-#   X_{\text{batch}} = 
-#   \begin{bmatrix}
-#   7 & 8
-#   \end{bmatrix}, \quad
-#   Y_{\text{batch}} =
-#   \begin{bmatrix}
-#   1
-#   \end{bmatrix}
-#   \]
+---
 
-# 这样每个批次就可以直接送入模型进行前向传播和反向传播
+## 批次示例
+
+**批次 0：**
+
+\[
+X_{\text{batch}} =
+\begin{bmatrix}
+5 & 6 \\
+1 & 2
+\end{bmatrix}, \quad
+Y_{\text{batch}} =
+\begin{bmatrix}
+0 \\ 0
+\end{bmatrix}
+\]
+
+**批次 1：**
+
+\[
+X_{\text{batch}} =
+\begin{bmatrix}
+9 & 10 \\
+3 & 4
+\end{bmatrix}, \quad
+Y_{\text{batch}} =
+\begin{bmatrix}
+0 \\ 1
+\end{bmatrix}
+\]
+
+**批次 2：**
+
+\[
+X_{\text{batch}} =
+\begin{bmatrix}
+7 & 8
+\end{bmatrix}, \quad
+Y_{\text{batch}} =
+\begin{bmatrix}
+1
+\end{bmatrix}
+\]
+
+---
+
+## 数学解释
+
+- **单条样本**:
+
+\[
+\text{dataset}[i] = (x_i, y_i), \quad
+x_i \in \mathbb{R}^2, \quad
+y_i \in \{0,1\}
+\]
+
+- **批次数据**:
+
+\[
+X_{\text{batch}} \in \mathbb{R}^{\text{batch\_size} \times 2}, \quad
+Y_{\text{batch}} \in \mathbb{R}^{\text{batch\_size}}
+\]
+
+- **说明**：
+
+每个批次将单条样本组合起来，形成矩阵形式，方便直接送入模型进行前向传播和反向传播。
+
 
