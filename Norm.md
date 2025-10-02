@@ -37,3 +37,38 @@ x = torch.randn(4, 3, 8, 8)  # batch_size=4, channels=3, H=W=8
 bn = nn.BatchNorm2d(num_features=3)
 y = bn(x)
 print("BatchNorm 输出形状:", y.shape)
+```
+
+# LayerNorm（层归一化）详解
+
+**数学公式**：
+
+对于输入 $x \in \mathbb{R}^{N \times D}$ 或 $x \in \mathbb{R}^{N \times C \times H \times W}$，在特征维度上归一化：
+
+$$
+\hat{x}_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}}, \quad
+y_i = \gamma \hat{x}_i + \beta
+$$
+
+其中：
+
+- $\mu, \sigma^2$ 是在特征维度上计算的均值和方差  
+- $\gamma, \beta$ 是可学习的缩放和平移参数  
+- $\epsilon$ 是防止除零的小常数
+
+**解释**：
+
+- 对每个样本独立归一化，不依赖批次大小  
+- 常用于 Transformer 或 RNN 结构中  
+
+**示例代码**：
+
+```python
+import torch
+import torch.nn as nn
+
+x = torch.randn(2, 5)  # batch_size=2, features=5
+ln = nn.LayerNorm(normalized_shape=5)
+y = ln(x)
+print("LayerNorm 输出:\n", y)
+```
