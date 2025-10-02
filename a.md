@@ -5,6 +5,7 @@
 ---
 
 ## 1. ReLU
+<img width="473" height="382" alt="image" src="https://github.com/user-attachments/assets/79bf9f4a-fcce-4a9c-bc84-d69f787c2eee" />
 
 数学公式：
 
@@ -29,6 +30,8 @@ print("ReLU 输出:\n", y)
 
 ## 2. Sigmoid
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/606014d0-e40a-4c21-a18f-8824ac3a86ea" />
+
 数学公式：
 
 $$
@@ -50,6 +53,7 @@ y = sigmoid(x)
 print("Sigmoid 输出:\n", y)
 ```
 ## 3. Tanh
+<img width="425" height="234" alt="image" src="https://github.com/user-attachments/assets/0a34c0d6-9627-4a65-a04e-82690727ee00" />
 
 数学公式：
 
@@ -73,6 +77,7 @@ y = tanh(x)
 print("Tanh 输出:\n", y)
 ```
 ## 4. LeakyReLU
+<img width="683" height="559" alt="image" src="https://github.com/user-attachments/assets/1c91f705-c38d-4025-9cbd-d6ebf25da8a0" />
 
 数学公式：
 
