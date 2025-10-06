@@ -1,11 +1,8 @@
-# 🧠 Transformer Encoder 数学过程与目的详解
-
-> 作者：ChatGPT-GPT5  
-> 适用范围：理解 Vision Transformer / Transformer Encoder 的数学机制  
+#  Transformer Encoder 的数学过程和代码示例
 
 ---
 
-## 📘 一、总体目标
+##  一、总体目标
 
 Transformer Encoder 的核心目标是：
 
@@ -16,7 +13,7 @@ Transformer Encoder 的核心目标是：
 
 ---
 
-## 🧩 二、输入形式
+##  二、输入形式
 
 输入通常是嵌入向量序列：
 
@@ -32,13 +29,13 @@ $$X = [x_1, x_2, \dots, x_N] \in \mathbb{R}^{N \times D}$$
 2. 加上位置编码：
    $$Z_0 = X' + E_{pos}$$
 
-👉 **目的：**
+ **目的：**
 - `[CLS]` 用于汇聚全局特征。
 - 位置编码 $E_{pos}$ 保留序列顺序信息（因为注意力机制本身是无序的）。
 
 ---
 
-## ⚙️ 三、Encoder 的层结构
+##  三、Encoder 的层结构
 
 每一层（Layer）包含两个主要部分：
 
@@ -51,9 +48,9 @@ $$X = [x_1, x_2, \dots, x_N] \in \mathbb{R}^{N \times D}$$
 
 ---
 
-## 🧠 四、Self-Attention 的数学过程与目的
+##  四、Self-Attention 的数学过程与目的
 
-### Step 1️⃣: 线性映射（构造 Q, K, V）
+### Step 1️: 线性映射（构造 Q, K, V）
 
 对输入 $Z_{l-1}$ 做三次线性变换：
 
@@ -64,14 +61,14 @@ $$Q = Z_{l-1} W_Q, \quad K = Z_{l-1} W_K, \quad V = Z_{l-1} W_V$$
 - $D_h = D / h$ 是单个注意力头的维度
 - $h$：注意力头的数量
 
-👉 **目的：**
+ **目的：**
 - $Q$（Query）表示“我想关注什么”
 - $K$（Key）表示“我能提供什么”
 - $V$（Value）表示“我包含的信息内容”
 
 ---
 
-### Step 2️⃣: 相似度计算（Query 与 Key）
+### Step 2️: 相似度计算（Query 与 Key）
 
 计算注意力得分矩阵：
 
@@ -81,39 +78,82 @@ $$S = \frac{Q K^T}{\sqrt{D_h}}$$
 
 $$A = \text{softmax}(S)$$
 
-👉 **目的：**
+ **目的：**
 - 衡量每个 token 与其它 token 的相关性；
 - $\sqrt{D_h}$ 防止内积值过大，稳定梯度；
 - softmax 使得权重在 [0,1] 之间且可解释为“注意力分布”。
 
 ---
 
-### Step 3️⃣: 加权求和（根据注意力聚合信息）
+### Step 3️: 加权求和（根据注意力聚合信息）
 
 $$Z' = A V$$
 
-👉 **目的：**
+ **目的：**
 每个 token 得到整个序列的信息加权汇总。  
 即每个位置“看到了”其它所有位置的内容。
 
 ---
 
-### Step 4️⃣: 多头机制（Multi-Head）
+### Step 4️: 多头机制（Multi-Head）
 
 $$\text{MHA}(Z) = [Z'_1; Z'_2; \dots; Z'_h] W_O$$
 
-👉 **目的：**
+ **目的：**
 不同的注意力头在关注不同的语义关系（局部、全局、颜色、形状、上下文等）。
 
 ---
 
-## 🔁 五、残差连接与归一化
+```python
+
+class MultiHeadSelfAttention(nn.Module):
+    def __init__(self, embed_dim, num_heads):
+        super().__init__()
+        assert embed_dim % num_heads == 0, "embed_dim must be divisible by num_heads"
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads
+        
+        # QKV 线性层
+        self.W_Q = nn.Linear(embed_dim, embed_dim)
+        self.W_K = nn.Linear(embed_dim, embed_dim)
+        self.W_V = nn.Linear(embed_dim, embed_dim)
+        self.W_O = nn.Linear(embed_dim, embed_dim)
+        
+    def forward(self, x):
+        B, N, D = x.shape  # batch, seq_len, embed_dim
+        
+        # 生成 Q, K, V
+        Q = self.W_Q(x)  # [B, N, D]
+        K = self.W_K(x)
+        V = self.W_V(x)
+        
+        # 分头
+        Q = Q.view(B, N, self.num_heads, self.head_dim).transpose(1, 2)  # [B, h, N, D_h]
+        K = K.view(B, N, self.num_heads, self.head_dim).transpose(1, 2)
+        V = V.view(B, N, self.num_heads, self.head_dim).transpose(1, 2)
+        
+        # 计算注意力
+        attn_scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(self.head_dim)  # [B, h, N, N]
+        attn_weights = torch.softmax(attn_scores, dim=-1)
+        
+        # 加权求和
+        out = torch.matmul(attn_weights, V)  # [B, h, N, D_h]
+        
+        # 合并多头
+        out = out.transpose(1, 2).contiguous().view(B, N, D)  # [B, N, D]
+        out = self.W_O(out)
+        return out
+
+```
+
+##  五、残差连接与归一化
 
 每一层都会加上输入的残差，并做 LayerNorm：
 
 $$Z'_l = \text{LayerNorm}(Z_{l-1} + \text{MHA}(Z_{l-1}))$$
 
-👉 **目的：**
+ **目的：**
 - 残差连接保证信息流通、防止梯度消失；
 - LayerNorm 稳定训练，使分布平衡。
 
@@ -127,14 +167,25 @@ $$\text{FFN}(x) = \text{GELU}(x W_1 + b_1) W_2 + b_2$$
 
 $$Z_l = \text{LayerNorm}(Z'_l + \text{FFN}(Z'_l))$$
 
-👉 **目的：**
+ **目的：**
 - 对每个 token 进行更复杂的特征映射；
 - 增加非线性表达能力；
 - 第二次残差保证特征不丢失。
 
+```python
+class FeedForward(nn.Module):
+    def __init__(self, embed_dim, hidden_dim):
+        super().__init__()
+        self.fc1 = nn.Linear(embed_dim, hidden_dim)
+        self.act = nn.GELU()
+        self.fc2 = nn.Linear(hidden_dim, embed_dim)
+        
+    def forward(self, x):
+        return self.fc2(self.act(self.fc1(x)))
+```
 ---
 
-## 📊 七、数学流程总结
+##  七、数学流程总结
 
 完整的第 $l$ 层 Encoder 公式：
 
@@ -149,7 +200,7 @@ $$
 
 ---
 
-## 🎯 八、最终输出与任务目标
+##  八、最终输出与任务目标
 
 经过 $L$ 层编码后：
 
@@ -164,7 +215,7 @@ $$Z_L = \text{Encoder}(Z_0)$$
 
 ---
 
-## 🌟 九、Encoder 的目的总结表
+##  九、Encoder 的目的总结表
 
 | 模块 | 数学形式 | 目的 |
 |------|-----------|------|
@@ -179,19 +230,4 @@ $$Z_L = \text{Encoder}(Z_0)$$
 
 ---
 
-## 💡 十、直观理解
 
-| NLP 类比 | ViT 类比 |
-|-----------|-----------|
-| 每个单词在听其他单词说话 | 每个图像 patch 在看整张图 |
-| 计算注意力权重表示语义相关性 | 计算视觉区域之间的依赖 |
-| 经过多层编码，得到上下文语义表示 | 经过多层编码，得到全局视觉特征 |
-
----
-
-## 🧾 十一、简洁伪代码总结
-
-```python
-for layer in encoder_layers:
-    x = x + MultiHeadAttention(LayerNorm(x))
-    x = x + FeedForward(LayerNorm(x))
