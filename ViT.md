@@ -159,7 +159,7 @@ $$Z'_l = \text{LayerNorm}(Z_{l-1} + \text{MHA}(Z_{l-1}))$$
 
 ---
 
-## 🔧 六、前馈网络（Feed-Forward Network, FFN）
+##  六、前馈网络（Feed-Forward Network, FFN）
 
 对每个位置独立地做非线性变换：
 
