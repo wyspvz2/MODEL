@@ -1,4 +1,5 @@
 # DIST: Distillation via Inter-class and Intra-class Correlation
+![Uploading image.png…]()
 
 ## 1. 方法概述
 
