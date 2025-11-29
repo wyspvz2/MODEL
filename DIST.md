@@ -6,26 +6,34 @@ DIST（Distillation via Inter-class and Intra-class Correlation）是一种 **�
 它不直接替代分类损失，而是在标准交叉熵基础上增加一项关系损失，使学生学习教师对 **类间（inter-class）和类内（intra-class）** 的分布关系。
 
 ### 1.1 Inter-class Relation（类间关系）
+
 - 对每个样本，教师和学生预测的概率向量之间的相关性。  
 - 数学公式：
-\[
-L_\text{inter} = \frac{1}{B} \sum_{i=1}^{B} \left( 1 - \text{corr}(y_i^s, y_i^t) \right)
-\]
-其中 \(y_i^s, y_i^t \in \mathbb{R}^C\) 是学生和教师的 softmax 预测，\(B\) 是 batch size，\(\text{corr}(\cdot,\cdot)\) 为 Pearson 相关系数。
+
+$$
+L_\text{inter} = \frac{1}{B} \sum_{i=1}^{B} \Big( 1 - \text{corr}(y_i^s, y_i^t) \Big)
+$$
+
+其中 $y_i^s, y_i^t \in \mathbb{R}^C$ 是学生和教师的 softmax 预测，$B$ 是 batch size，$\text{corr}(\cdot,\cdot)$ 为 Pearson 相关系数。
 
 ### 1.2 Intra-class Relation（类内关系）
+
 - 对每个类别，统计 batch 内样本在该类别上的预测概率趋势，然后匹配教师和学生的相关性。
 - 数学公式：
-\[
-L_\text{intra} = \frac{1}{C} \sum_{j=1}^{C} \left( 1 - \text{corr}(y_j^s, y_j^t) \right)
-\]
-其中 \(y_j^s, y_j^t \in \mathbb{R}^B\) 表示学生/教师在 batch 中样本对类别 \(j\) 的预测概率。
+
+$$
+L_\text{intra} = \frac{1}{C} \sum_{j=1}^{C} \Big( 1 - \text{corr}(y_j^s, y_j^t) \Big)
+$$
+
+其中 $y_j^s, y_j^t \in \mathbb{R}^B$ 表示学生/教师在 batch 中样本对类别 $j$ 的预测概率。
 
 ### 1.3 总损失
-- 引入权重 \(\beta, \gamma\) 以及 softmax 温度 \(\tau\)：
-\[
+
+- 引入权重 $\beta, \gamma$ 以及 softmax 温度 $\tau$：
+
+$$
 \mathcal{L}_\text{DIST} = \beta \cdot \tau^2 L_\text{inter} + \gamma \cdot \tau^2 L_\text{intra}
-\]
+$$
 
 ---
 
