@@ -3,6 +3,7 @@
 
 ## 接受：ICLR2017
 ## 1. 方法概述
+<img width="367" height="536" alt="image" src="https://github.com/user-attachments/assets/e3a98edc-6b46-45b8-97c7-af61e467c0c1" />
 
 AT（Attention Transfer）是一种 **中间特征蒸馏方法**，提出者为 Zagoruyko & Komodakis（2017）。  
 它的核心思想是将教师网络中间层的 **空间注意力图（Attention Map）** 传递给学生网络，让学生学习教师关注的空间区域。
