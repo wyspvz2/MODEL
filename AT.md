@@ -1,5 +1,7 @@
 # AT: Attention Transfer
+#论文名：Paying more attention to attention: improving the performance of convolutional neural networks via Attention Transfer
 
+#接受：ICLR2017
 ## 1. 方法概述
 
 AT（Attention Transfer）是一种 **中间特征蒸馏方法**，提出者为 Zagoruyko & Komodakis（2017）。  
