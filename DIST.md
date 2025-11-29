@@ -15,7 +15,7 @@ $$
 L_{inter} = \frac{1}{B} \sum_{i=1}^{B} \Big(1 - corr(y_i^s, y_i^t)\Big)
 $$
 
-其中 $y_i^s, y_i^t \in \mathbb{R}^C$ 是学生和教师的 softmax 预测，$B$ 是 batch size，$corr(\cdot,\cdot)$ 为 Pearson 相关系数。
+其中 $y_i^s, y_i^t \in \mathbb{R}^C$ 是学生和教师的 softmax 预测，B 是 batch size，corr(y_i, y_i) 为 Pearson 相关系数。为 Pearson 相关系数。
 
 ### 1.2 Intra-class Relation（类内关系）
 
