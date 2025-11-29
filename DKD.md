@@ -1,6 +1,7 @@
 # Decoupled Knowledge Distillation (DKD)
 
 ## 1. 方法概述
+<img width="570" height="789" alt="image" src="https://github.com/user-attachments/assets/3987b96a-cc21-4fdd-b9d6-95838d53f161" />
 
 Decoupled Knowledge Distillation（DKD）是一种改进的知识蒸馏方法，它将 **教师-学生间的知识传递**拆分为 **Target-Class Knowledge Distillation (TCKD)** 和 **Non-Target-Class Knowledge Distillation (NCKD)** 两部分：
 
